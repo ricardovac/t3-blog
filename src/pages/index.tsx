@@ -6,6 +6,23 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
+  const { data, status } = useSession();
+
+  if (status === "unauthenticated") {
+    return (
+      <div>
+        You need to{" "}
+        <button
+          onClick={() => signIn()}
+          className="text-blue-500 underline-offset-1 hover:text-blue-700"
+        >
+          login
+        </button>{" "}
+        to create a post
+      </div>
+    );
+  }
+
   return (
     <>
       <Head>
