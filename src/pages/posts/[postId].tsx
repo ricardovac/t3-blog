@@ -1,4 +1,5 @@
 import Error from "next/error";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
 
@@ -22,6 +23,11 @@ function SinglePostPage() {
         <div className="flex flex-col gap-4 p-4">
           <h1 className="text-4xl font-extrabold">{data?.title}</h1>
           <p>{data?.body}</p>
+          <Link href="/">
+            <button className="hover rounded border p-2 text-white hover:bg-zinc-800">
+              Back
+            </button>
+          </Link>
         </div>
       </div>
     </div>

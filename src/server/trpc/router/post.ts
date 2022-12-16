@@ -1,5 +1,5 @@
 import { initTRPC, TRPCError } from "@trpc/server";
-import { z } from "zod";
+import { boolean, z } from "zod";
 import {
   createPostSchema,
   getSinglePostSchema,
@@ -24,7 +24,16 @@ export const postRouter = router({
       return post;
     }),
   allPost: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.post.findMany();
+    return ctx.prisma.post.findMany({
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
+    });
   }),
   singlePost: publicProcedure
     .input(getSinglePostSchema)
