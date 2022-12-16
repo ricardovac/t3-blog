@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import PostListingPage from "../../components/PostListingPage";
 import { CreatePostInput } from "../../server/schema/post.schema";
 import { trpc } from "../../utils/trpc";
 
