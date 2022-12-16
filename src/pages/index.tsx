@@ -2,9 +2,8 @@ import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
-
 import { trpc } from "../utils/trpc";
-import PostListingPage from "../components/PostListingPage";
+import PostListing from "../components/PostListing";
 
 const Home: NextPage = () => {
   const { data, status } = useSession();
@@ -32,7 +31,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col justify-center bg-zinc-900">
-        <PostListingPage />
+        <PostListing />
       </main>
     </>
   );

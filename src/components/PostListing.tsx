@@ -32,7 +32,7 @@ function PostListingPage() {
             </p>
             <Link
               href={`/posts/${posts.id}`}
-              className="flex  items-center gap-1 text-zinc-200"
+              className="flex items-center gap-1 text-zinc-200"
             >
               <span>Read post </span>
               <AiOutlineArrowRight />

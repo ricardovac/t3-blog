@@ -17,9 +17,13 @@ function SinglePostPage() {
   }
 
   return (
-    <div>
-      <h1>{data?.title}</h1>
-      <p>{data?.body}</p>
+    <div className="flex min-h-screen bg-zinc-900">
+      <div className="mx-auto flex w-full flex-col items-center justify-center text-white">
+        <div className="flex flex-col gap-4 p-4">
+          <h1 className="text-4xl font-extrabold">{data?.title}</h1>
+          <p>{data?.body}</p>
+        </div>
+      </div>
     </div>
   );
 }
