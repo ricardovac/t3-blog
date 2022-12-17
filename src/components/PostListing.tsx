@@ -1,9 +1,11 @@
+import { Post } from "@prisma/client";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import React from "react";
 import { AiOutlineArrowRight } from "react-icons/ai";
 import { trpc } from "../utils/trpc";
 
-function PostListingPage() {
+function PostListing() {
   const { data, isLoading } = trpc.post.allPost.useQuery();
 
   if (isLoading) {
@@ -47,4 +49,4 @@ function PostListingPage() {
     </div>
   );
 }
-export default PostListingPage;
+export default PostListing;

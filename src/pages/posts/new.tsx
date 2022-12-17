@@ -39,15 +39,19 @@ function createPostPage() {
           className="m-2 w-2/4 scale-100 overflow-hidden rounded-md border-4 border-zinc-500 bg-transparent p-4 outline-none"
         />
         <br />
-        <div className="flex gap-5">
-          <button className="hover rounded border p-2 text-white hover:bg-zinc-800">
-            Create post
-          </button>
-          <Link href="/">
+        <div className="flex w-2/4 justify-between">
+          <div>
             <button className="hover rounded border p-2 text-white hover:bg-zinc-800">
-              Back
+              Create post
             </button>
-          </Link>
+          </div>
+          <div>
+            <Link href="/">
+              <button className="hover rounded border p-2 text-white hover:bg-zinc-800">
+                Back
+              </button>
+            </Link>
+          </div>
         </div>
       </form>
     </div>
