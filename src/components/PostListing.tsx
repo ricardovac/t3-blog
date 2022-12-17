@@ -14,7 +14,7 @@ function PostListing() {
 
   return (
     <div className="mx-auto flex w-full flex-col items-center justify-center">
-      {data?.map((posts) => {
+      {data?.map((posts: any) => {
         return (
           <article
             key={posts.id}
@@ -38,7 +38,9 @@ function PostListing() {
               className="flex items-center justify-between text-zinc-200"
             >
               <div className="flex items-center gap-1">
-                <span>Read post </span>
+                <span className="duration-100 ease-in hover:scale-105">
+                  Read post{" "}
+                </span>
                 <AiOutlineArrowRight />
               </div>
               <p>{posts.user.name}</p>
