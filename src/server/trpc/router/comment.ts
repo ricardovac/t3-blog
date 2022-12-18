@@ -37,7 +37,7 @@ export const commentRouter = router({
         parentId: z.string().optional(),
       })
     )
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const { body, permalink, parentId } = input;
 
       const user = ctx.session?.user;
@@ -46,9 +46,10 @@ export const commentRouter = router({
         const comment = await ctx.prisma.comment.create({
           data: {
             body, // Corpo do comentário
-            Post: { // Conectar o post com o permalink do user
+            Post: {
+              // Conectar o post com o permalink do user
               connect: {
-                permalink,
+                id: permalink,
               },
             },
             user: {

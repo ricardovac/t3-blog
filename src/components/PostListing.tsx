@@ -37,10 +37,8 @@ function PostListing() {
               href={`/posts/${posts.id}`}
               className="flex items-center justify-between text-zinc-200"
             >
-              <div className="flex items-center gap-1">
-                <span className="duration-100 ease-in hover:scale-105">
-                  Read post{" "}
-                </span>
+              <div className="flex items-center gap-1 duration-100 ease-in hover:scale-105">
+                <span className="">Read post </span>
                 <AiOutlineArrowRight />
               </div>
               <p>{posts.user.name}</p>

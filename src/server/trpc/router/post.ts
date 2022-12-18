@@ -72,7 +72,7 @@ export const postRouter = router({
 
       const post = await ctx.prisma.post.findUnique({
         where: {
-          permalink,
+          id: permalink,
         },
         select: {
           title: true,

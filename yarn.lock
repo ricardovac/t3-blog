@@ -1919,10 +1919,10 @@
     "loose-envify" "^1.1.0"
     "scheduler" "^0.23.0"
 
-"react-hook-form@^7.40.0":
-  "integrity" "sha512-0rokdxMPJs0k9bvFtY6dbcSydyNhnZNXCR49jgDr/aR03FDHFOK6gfh8ccqB3fl696Mk7lqh04xdm+agqWXKSw=="
-  "resolved" "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.40.0.tgz"
-  "version" "7.40.0"
+"react-hook-form@^7.41.0":
+  "integrity" "sha512-u1cHOXujr+AsNBoeCtcCuRwPh87mXAgKtXqd3qTCBgNFYzVZLXjYgLcynORpAgqhe24r5scucR8+6gfWaXBtHQ=="
+  "resolved" "https://registry.npmjs.org/react-hook-form/-/react-hook-form-7.41.0.tgz"
+  "version" "7.41.0"
 
 "react-icons@^4.7.1":
   "integrity" "sha512-yHd3oKGMgm7zxo3EA7H2n7vxSoiGmHk5t6Ou4bXsfcgWyhfDKMpyKfhHR6Bjnn63c+YXBLBPUql9H4wPJM6sXw=="
