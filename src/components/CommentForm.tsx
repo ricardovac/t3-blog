@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { trpc } from "../utils/trpc";
+import { comment } from "postcss";
 
 const defaultValues = {
   body: "",
@@ -11,11 +12,20 @@ const defaultValues = {
 export default function CommentForm({ parentId }: { parentId?: string }) {
   const router = useRouter();
   const permalink = router.query.permalink as string;
-  const { handleSubmit, register } = useForm({
+  const { handleSubmit, register, reset } = useForm({
     defaultValues,
   });
 
-  const { mutate, isLoading } = trpc.comment.addComments.useMutation();
+  const utils = trpc.useContext();
+
+  const commentsLength = trpc.comment.countComments.useQuery().data;
+  const { mutate, isLoading } = trpc.comment.addComments.useMutation({
+    onSuccess: () => {
+      reset();
+
+      utils.comment.allComments.invalidate({ permalink });
+    },
+  });
 
   const onSubmit = (data: { body: string }) => {
     const payload = {
@@ -31,7 +41,7 @@ export default function CommentForm({ parentId }: { parentId?: string }) {
     <div>
       <div className="mb-6 flex items-center justify-end">
         <h2 className="text-xl font-bold text-white dark:text-white">
-          Discussion (20)
+          Discussion ({commentsLength})
         </h2>
       </div>
       <form className="" onSubmit={handleSubmit(onSubmit)}>
@@ -42,7 +52,7 @@ export default function CommentForm({ parentId }: { parentId?: string }) {
           <textarea
             defaultValue={defaultValues.body}
             id="comment"
-            rows={6}
+            rows={4}
             className="w-full border-0 bg-transparent px-0 text-sm text-white focus:outline-none focus:ring-0"
             placeholder="Write a comment..."
             required
@@ -50,17 +60,17 @@ export default function CommentForm({ parentId }: { parentId?: string }) {
           ></textarea>
         </div>
         <div className="flex justify-between">
+          <Link href="/">
+            <button className="hover rounded border py-2.5 px-4 text-xs text-white hover:bg-zinc-800">
+              Back
+            </button>
+          </Link>
           <button
             type="submit"
             className="bg-primary-700 hover:bg-primary-800 flex rounded-lg border py-2.5 px-4 text-center text-xs text-white hover:bg-zinc-700 focus-within:hover:bg-zinc-800"
           >
             {parentId ? "Post reply" : "Post comment"}
           </button>
-          <Link href="/">
-            <button className="hover rounded border py-2.5 px-4 text-xs text-white hover:bg-zinc-800">
-              Back
-            </button>
-          </Link>
         </div>
       </form>
     </div>

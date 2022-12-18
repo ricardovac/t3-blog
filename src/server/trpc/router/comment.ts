@@ -16,8 +16,11 @@ export const commentRouter = router({
         const comments = await ctx.prisma.comment.findMany({
           where: {
             Post: {
-              permalink,
+              id: permalink,
             },
+          },
+          include: {
+            user: true,
           },
         });
 
@@ -75,4 +78,8 @@ export const commentRouter = router({
         });
       }
     }),
+  countComments: publicProcedure.query(async ({ ctx }) => {
+    const count = await ctx.prisma.comment.count();
+    return count;
+  }),
 });

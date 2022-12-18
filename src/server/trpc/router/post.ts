@@ -68,11 +68,9 @@ export const postRouter = router({
       })
     )
     .query(async ({ input, ctx }) => {
-      const { permalink } = input;
-
       const post = await ctx.prisma.post.findUnique({
         where: {
-          id: permalink,
+          id: input.permalink,
         },
         select: {
           title: true,

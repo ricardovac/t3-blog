@@ -2,11 +2,11 @@ import Error from "next/error";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import CommentForm from "../../components/CommentForm";
+import CommentListing from "../../components/CommentListing";
 import { trpc } from "../../utils/trpc";
 
 function SinglePostPage() {
   const router = useRouter();
-  // const postId = router.query.postId as string;
   const permalink = router.query.permalink as string;
 
   const { data, isLoading } = trpc.post.findByPermalink.useQuery({ permalink });
@@ -25,6 +25,7 @@ function SinglePostPage() {
           <h1 className="text-4xl font-extrabold">{data?.title}</h1>
           <p>{data?.body}</p>
           <CommentForm />
+          <CommentListing />
         </div>
       </div>
     </div>
