@@ -20,7 +20,7 @@ function createPostPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-zinc-900">
+    <div className="flex min-h-screen bg-zinc-900 font-space">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mx-auto flex w-full flex-col items-center justify-center text-white"

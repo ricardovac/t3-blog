@@ -13,7 +13,7 @@ function PostListing() {
   }
 
   return (
-    <div className="mx-auto flex w-full flex-col items-center justify-center">
+    <div className="mx-auto flex w-full flex-col items-center justify-center font-space">
       {data?.map((posts: any) => {
         return (
           <article
