@@ -38,7 +38,14 @@ export type RouterInputs = inferRouterInputs<AppRouter>;
 /**
  * Inference helper for outputs
  * @example type HelloOutput = RouterOutputs['example']['hello']
- **/
+ **/ {
+}
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
 
-export type Comment = RouterOutputs['comment']['allComments'][number]
+export type Comment = RouterOutputs["comment"]["allComments"][number];
+
+export type CommentWithChildren = Comment & {
+  children: Array<CommentWithChildren>;
+};
+
+export type Delete = RouterOutputs["comment"]["deleteComment"];

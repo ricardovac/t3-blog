@@ -25,6 +25,7 @@
     "react-icons": "^4.7.1",
     "sanitize-html": "^2.8.0",
     "superjson": "1.9.1",
+    "timeago-react": "^3.0.5",
     "zod": "^3.18.0"
   },
   "devDependencies": {

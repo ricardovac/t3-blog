@@ -3,7 +3,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
 export const commentRouter = router({
-  allComments: protectedProcedure
+  allComments: publicProcedure
     .input(
       z.object({
         permalink: z.string(),
@@ -82,4 +82,16 @@ export const commentRouter = router({
     const count = await ctx.prisma.comment.count();
     return count;
   }),
+  deleteComment: protectedProcedure
+    .input(
+      z.object({
+        permalink: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const deleteComment = await ctx.prisma.comment.delete({
+        where: { id: input.permalink },
+      });
+      return deleteComment;
+    }),
 });

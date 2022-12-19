@@ -1,8 +1,6 @@
 import Error from "next/error";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import CommentForm from "../../components/CommentForm";
-import CommentListing from "../../components/CommentListing";
+import CommentSection from "../../components/CommentSection";
 import { trpc } from "../../utils/trpc";
 
 function SinglePostPage() {
@@ -21,11 +19,10 @@ function SinglePostPage() {
   return (
     <div className="flex min-h-screen bg-zinc-900">
       <div className="mx-auto flex w-full flex-col items-center justify-center text-white">
-        <div className="flex w-2/4 flex-col gap-4 p-4">
+        <div className="mt-8 flex w-2/4 flex-col gap-4 p-4">
           <h1 className="text-4xl font-extrabold">{data?.title}</h1>
           <p>{data?.body}</p>
-          <CommentForm />
-          <CommentListing />
+          <CommentSection />
         </div>
       </div>
     </div>

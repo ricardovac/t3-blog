@@ -10,7 +10,8 @@ function createPostPage() {
 
   const { mutate, error } = trpc.post.createPost.useMutation({
     onSuccess({ id }) {
-      router.push(`/posts/${id}`);
+      // router.push(`/posts/${id}`);
+      router.push("/");
     },
   });
 
@@ -31,12 +32,12 @@ function createPostPage() {
           type="text"
           placeholder="Your post title"
           {...register("title")}
-          className="m-2 w-2/4 scale-100 overflow-hidden rounded-md border-4 border-zinc-500 bg-transparent p-4 shadow outline-none duration-500 ease-in hover:shadow-md focus:shadow-zinc-700"
+          className="m-2 w-2/4 scale-100 overflow-hidden rounded-md border-2 border-zinc-500 bg-transparent p-4 shadow outline-none duration-500 ease-in hover:shadow-md focus:shadow-zinc-700"
         />
         <textarea
           placeholder="Write..."
           {...register("body")}
-          className="m-2 w-2/4 scale-100 overflow-hidden rounded-md border-4 border-zinc-500 bg-transparent p-4 outline-none"
+          className="m-2 w-2/4 scale-100 overflow-hidden rounded-md border-2 border-zinc-500 bg-transparent p-4 outline-none"
         />
         <br />
         <div className="flex w-2/4 justify-between">

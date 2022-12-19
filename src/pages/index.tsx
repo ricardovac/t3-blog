@@ -69,13 +69,13 @@ const Home: NextPage = () => {
       <main className="flex min-h-screen flex-col items-center justify-center bg-zinc-900">
         <div className="flex w-2/4 justify-between gap-2 rounded text-white">
           <Link href="/posts/new">
-            <h1 className="hover rounded border p-2 hover:bg-zinc-800">
+            <h1 className="hover rounded border p-2 focus-within:bg-zinc-700 hover:bg-zinc-800">
               Create Post
             </h1>
           </Link>
           <input
             type="text"
-            className="hover flex-grow rounded border bg-transparent p-2 hover:bg-zinc-800"
+            className="hover flex-grow rounded border bg-transparent p-2 outline-none hover:bg-zinc-800 focus:bg-zinc-900"
             placeholder="Search posts..."
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               searchItems(e.target.value)

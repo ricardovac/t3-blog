@@ -18,7 +18,7 @@ function PostListing() {
         return (
           <article
             key={posts.id}
-            className="m-2 w-2/4 scale-100 overflow-hidden rounded-md border-4 border-zinc-500 p-4 shadow duration-500 ease-in hover:shadow-md hover:shadow-zinc-700"
+            className="m-2 w-2/4 scale-100 overflow-hidden rounded-md border-2 border-zinc-500 p-4 shadow duration-200 ease-in hover:shadow-md hover:shadow-zinc-700"
           >
             <div className="flex items-center justify-between">
               <h1 className="text-4xl font-extrabold text-white">
