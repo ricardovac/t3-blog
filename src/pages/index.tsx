@@ -75,7 +75,7 @@ const Home: NextPage = () => {
           </Link>
           <input
             type="text"
-            className="hover flex-grow rounded border bg-transparent p-2 outline-none hover:bg-zinc-800 focus:bg-zinc-900 duration-150 ease-in-out"
+            className="hover flex-grow rounded border bg-transparent p-2 outline-none duration-150 ease-in-out hover:bg-zinc-800 focus:bg-zinc-900"
             placeholder="Search posts..."
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               searchItems(e.target.value)
@@ -83,7 +83,7 @@ const Home: NextPage = () => {
           />
           <button
             onClick={() => signOut()}
-            className="hover rounded border p-2 hover:bg-zinc-800 duration-150 ease-in-out"
+            className="hover rounded border p-2 duration-150 ease-in-out hover:bg-zinc-800"
           >
             Logout
           </button>

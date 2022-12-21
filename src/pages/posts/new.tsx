@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { CreatePostInput } from "../../server/schema/post.schema";
 import { trpc } from "../../utils/trpc";
+import toast, { Toaster } from "react-hot-toast";
 
 function createPostPage() {
   const { handleSubmit, register } = useForm<CreatePostInput>();
@@ -25,9 +26,13 @@ function createPostPage() {
         onSubmit={handleSubmit(onSubmit)}
         className="mx-auto flex w-full flex-col items-center justify-center text-white"
       >
-        {error && error.message}
         <h1>Create your post</h1>
         <br />
+        {error && (
+          <p id="hideMe" className="text-red-700">
+            Body must be at least 10 characters
+          </p>
+        )}
         <input
           type="text"
           placeholder="Your post title"
