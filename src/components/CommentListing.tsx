@@ -3,6 +3,7 @@ import { IoMdClose, IoMdTrash } from "react-icons/io";
 import { CommentWithChildren, trpc } from "../utils/trpc";
 import ReplyForm from "./ReplyForm";
 import TimeAgo from "timeago-react";
+import { useSession } from "next-auth/react";
 
 function getReplyCountText(count: number) {
   if (count === 0) {
@@ -72,6 +73,7 @@ export function CommentActions({
 
 function Comment({ comment }: { comment: CommentWithChildren }) {
   const utils = trpc.useContext();
+  const { data } = useSession();
 
   const img = comment.user.image as string | undefined;
   const deleteComment = trpc.comment.deleteComment.useMutation({
@@ -79,6 +81,7 @@ function Comment({ comment }: { comment: CommentWithChildren }) {
       utils.comment.invalidate();
     },
   });
+  const user = data?.user?.id
 
   return (
     <div className="mb-4 rounded-lg">
@@ -103,15 +106,17 @@ function Comment({ comment }: { comment: CommentWithChildren }) {
                 </time>
               </p>
             </div>
-            <div className="cursor-pointer opacity-0 duration-200 ease-in-out group-hover:opacity-100">
-              <IoMdTrash
-                size={20}
-                onClick={() => {
-                  deleteComment.mutate({
-                    permalink: comment.id,
-                  });
-                }}
-              />
+            <div className="cursor-pointer opacity-0 duration-200 ease-in-out hover:scale-125 group-hover:opacity-100">
+              {user === comment.userId ? (
+                <IoMdTrash
+                  size={20}
+                  onClick={() => {
+                    deleteComment.mutate({
+                      permalink: comment.id,
+                    });
+                  }}
+                />
+              ) : null}
             </div>
           </div>
         </footer>
@@ -132,7 +137,6 @@ function Comment({ comment }: { comment: CommentWithChildren }) {
   );
 }
 
-// TODO: Create a new component to handle the commentwithChildren.
 export default function CommentListing({
   comments,
 }: {

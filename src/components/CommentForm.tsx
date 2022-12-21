@@ -19,7 +19,7 @@ export default function CommentForm({ parentId }: { parentId?: string }) {
   const utils = trpc.useContext();
 
   const commentsLength = trpc.comment.countComments.useQuery().data;
-  const { mutate, isLoading } = trpc.comment.addComments.useMutation({
+  const { mutate } = trpc.comment.addComments.useMutation({
     onSuccess: () => {
       reset();
 
@@ -62,13 +62,13 @@ export default function CommentForm({ parentId }: { parentId?: string }) {
         </div>
         <div className="flex justify-between">
           <Link href="/">
-            <button className="hover rounded border py-2.5 px-4 text-xs text-white hover:bg-zinc-800">
+            <button className="hover rounded border py-2.5 px-4 text-xs text-white duration-150 ease-in-out hover:bg-zinc-800">
               Back
             </button>
           </Link>
           <button
             type="submit"
-            className="bg-primary-700 hover:bg-primary-800 flex rounded-lg border py-2.5 px-4 text-center text-xs text-white hover:bg-zinc-700 focus-within:hover:bg-zinc-800"
+            className="bg-primary-700 hover:bg-primary-800 flex rounded-lg border py-2.5 px-4 text-center text-xs text-white duration-150 ease-in-out hover:bg-zinc-700 focus-within:hover:bg-zinc-800"
           >
             {parentId ? "Post reply" : "Post comment"}
           </button>

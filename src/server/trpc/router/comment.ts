@@ -1,6 +1,6 @@
-import { router, publicProcedure, protectedProcedure } from "../trpc";
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+import { protectedProcedure, publicProcedure, router } from "../trpc";
 
 export const commentRouter = router({
   allComments: publicProcedure
@@ -89,8 +89,10 @@ export const commentRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const deleteComment = await ctx.prisma.comment.delete({
-        where: { id: input.permalink },
+      const user = ctx.session.user;
+
+      const deleteComment = await ctx.prisma.comment.deleteMany({
+        where: { user, id: input.permalink },
       });
       return deleteComment;
     }),
