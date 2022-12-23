@@ -101,4 +101,44 @@ export const postRouter = router({
         },
       });
     }),
+  upVote: protectedProcedure
+    .input(
+      z.object({
+        postId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session?.user.id;
+      const { prisma } = ctx;
+
+      return prisma.upvote.create({
+        data: {
+          Post: {
+            connect: {
+              id: input.postId,
+            },
+          },
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
+      });
+    }),
+  downVote: protectedProcedure
+    .input(z.object({ postId: z.string() }))
+    .mutation(({ ctx, input }) => {
+      const userId = ctx.session?.user.id;
+      const { prisma } = ctx;
+
+      return prisma.upvote.delete({
+        where: {
+          postId_userId: {
+            postId: input.postId,
+            userId,
+          },
+        },
+      });
+    }),
 });

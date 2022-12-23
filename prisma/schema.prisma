@@ -51,6 +51,7 @@ model User {
   sessions      Session[]
   Post          Post[]
   Comment       Comment[]
+  Upvote        Upvote[]
 }
 
 model VerificationToken {
@@ -62,10 +63,10 @@ model VerificationToken {
 }
 
 model Post {
-  id        String  @unique @default(cuid())
+  id        String @unique @default(cuid())
   title     String
   body      String
-  permalink String  @unique
+  permalink String @unique
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
@@ -74,6 +75,7 @@ model Post {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Upvote    Upvote[]
 }
 
 model Comment {
@@ -92,4 +94,19 @@ model Comment {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Upvote {
+  id String @unique @default(cuid())
+
+  Post   Post   @relation(fields: [postId], references: [id])
+  postId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([postId, userId])
 }
