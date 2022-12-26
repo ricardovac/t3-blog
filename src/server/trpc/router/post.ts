@@ -1,20 +1,21 @@
 import { initTRPC, TRPCError } from "@trpc/server";
-import { boolean, z } from "zod";
+import { z } from "zod";
 import sanitizeHtml from "sanitize-html";
+import { Upvote } from '@prisma/client'
 
 import {
   createPostSchema,
   getSinglePostSchema,
 } from "../../schema/post.schema";
-import crypto from "crypto";
-
-const getPermaLink = (title: string) =>
-  title
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+// import crypto from "crypto";
+//
+// const getPermaLink = (title: string) =>
+//   title
+//     .toLowerCase()
+//     .trim()
+//     .replace(/[^\w\s-]/g, "")
+//     .replace(/[\s_-]+/g, "-")
+//     .replace(/^-+|-+$/g, "");
 
 import { router, publicProcedure, protectedProcedure } from "../trpc";
 
@@ -23,11 +24,11 @@ export const postRouter = router({
     .input(createPostSchema)
     .mutation(async ({ ctx, input }) => {
       const { title, body } = input;
-
-      const permalink = `${getPermaLink(title)}-${crypto
-        .randomBytes(2)
-        .toString("hex")}`;
-
+      //
+      // const postId = `${getPermaLink(title)}-${crypto
+      //   .randomBytes(2)
+      //   .toString("hex")}`;
+      //
       const user = ctx.session?.user;
 
       return ctx.prisma.post.create({
@@ -40,7 +41,6 @@ export const postRouter = router({
             },
             allowedIframeHostnames: ["www.youtube.com"],
           }),
-          permalink,
           user: {
             connect: {
               id: user?.id,
@@ -94,51 +94,89 @@ export const postRouter = router({
     }),
   singlePost: publicProcedure
     .input(getSinglePostSchema)
-    .query(({ input, ctx }) => {
-      return ctx.prisma.post.findUnique({
+    .query(async ({ input, ctx: { prisma, session } }) => {
+      const items = await prisma.post.findUnique({
         where: {
           id: input.postId,
         },
+        include: {
+          _count: { select: { Upvote: true } }
+        },
+        // select: {
+        //   title: true,
+        //   body: true,
+        //   id: true,
+        //   createdAt: true,
+        //   user: {
+        //     select: {
+        //       name: true
+        //     }
+        //   }
+        // }
       });
+
+      let upvotes: Upvote[] = []
+      if (session?.user?.id) {
+        [upvotes] = await Promise.all([
+          prisma.upvote.findMany({
+            where: {
+              userId: session.user.id,
+              postId: input.postId
+            }
+          })
+        ])
+      }
+
+      return {
+        ...items,
+        likedByMe: upvotes.some((vote) => vote.postId === input.postId)
+      }
     }),
   upVote: protectedProcedure
     .input(
       z.object({
         postId: z.string(),
+        isLiked: z.boolean()
       })
     )
-    .mutation(async ({ ctx, input }) => {
-      const userId = ctx.session?.user.id;
-      const { prisma } = ctx;
+    .mutation(async ({ ctx: { prisma, session }, input }) => {
+      const userId = session?.user.id;
 
-      return prisma.upvote.create({
-        data: {
-          Post: {
-            connect: {
-              id: input.postId,
-            },
-          },
-          user: {
-            connect: {
-              id: userId,
-            },
-          },
-        },
-      });
-    }),
-  downVote: protectedProcedure
-    .input(z.object({ postId: z.string() }))
-    .mutation(({ ctx, input }) => {
-      const userId = ctx.session?.user.id;
-      const { prisma } = ctx;
-
-      return prisma.upvote.delete({
-        where: {
-          postId_userId: {
+      if (input.isLiked) {
+        await prisma.upvote.create({
+          data: {
             postId: input.postId,
             userId,
-          },
-        },
-      });
+          }
+        })
+      } else {
+        await prisma.upvote.delete({
+          where: {
+            postId_userId: {
+              postId: input.postId,
+              userId
+            }
+          }
+        })
+      }
+
+      return {
+        message: "OK"
+      }
     }),
+  countVotes: publicProcedure
+    .input(
+      z.object({
+        postId: z.string()
+      }))
+    .query(async ({ ctx: { prisma }, input }) => {
+      const count = await prisma.upvote.count({
+        where: {
+          postId: input.postId,
+        }
+      });
+      return {
+        count,
+      }
+    })
 });

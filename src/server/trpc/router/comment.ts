@@ -6,17 +6,16 @@ export const commentRouter = router({
   allComments: publicProcedure
     .input(
       z.object({
-        permalink: z.string(),
+        postId: z.string(),
       })
     )
     .query(async ({ ctx, input }) => {
-      const { permalink } = input;
 
       try {
         const comments = await ctx.prisma.comment.findMany({
           where: {
             Post: {
-              id: permalink,
+              id: input.postId,
             },
           },
           include: {
@@ -36,12 +35,12 @@ export const commentRouter = router({
     .input(
       z.object({
         body: z.string(),
-        permalink: z.string(),
+        postId: z.string(),
         parentId: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { body, permalink, parentId } = input;
+      const { body, postId, parentId } = input;
 
       const user = ctx.session?.user;
 
@@ -52,7 +51,7 @@ export const commentRouter = router({
             Post: {
               // Conectar o post com o permalink do user
               connect: {
-                id: permalink,
+                id: postId,
               },
             },
             user: {
@@ -85,14 +84,14 @@ export const commentRouter = router({
   deleteComment: protectedProcedure
     .input(
       z.object({
-        permalink: z.string(),
+        postId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const user = ctx.session.user;
 
       const deleteComment = await ctx.prisma.comment.deleteMany({
-        where: { user, id: input.permalink },
+        where: { user, id: input.postId },
       });
       return deleteComment;
     }),

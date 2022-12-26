@@ -7,9 +7,9 @@ import CommentListing from "./CommentListing";
 
 function CommentSection() {
   const router = useRouter();
-  const permalink = router.query.permalink as string;
+  const postId = router.query.postId as string;
 
-  const { data } = trpc.comment.allComments.useQuery({ permalink });
+  const { data } = trpc.comment.allComments.useQuery({ postId });
 
   return (
     <div>

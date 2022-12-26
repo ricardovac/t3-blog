@@ -112,7 +112,7 @@ function Comment({ comment }: { comment: CommentWithChildren }) {
                   size={20}
                   onClick={() => {
                     deleteComment.mutate({
-                      permalink: comment.id,
+                      postId: comment.id,
                     });
                   }}
                 />

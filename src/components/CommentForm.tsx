@@ -11,7 +11,7 @@ const defaultValues = {
 
 export default function CommentForm({ parentId }: { parentId?: string }) {
   const router = useRouter();
-  const permalink = router.query.permalink as string;
+  const postId = router.query.postId as string;
   const { handleSubmit, register, reset } = useForm({
     defaultValues,
   });
@@ -23,7 +23,7 @@ export default function CommentForm({ parentId }: { parentId?: string }) {
     onSuccess: () => {
       reset();
 
-      utils.comment.allComments.invalidate({ permalink });
+      utils.comment.allComments.invalidate({ postId });
       utils.comment.countComments.invalidate();
     },
   });
@@ -31,7 +31,7 @@ export default function CommentForm({ parentId }: { parentId?: string }) {
   const onSubmit = (data: { body: string }) => {
     const payload = {
       ...data,
-      permalink,
+      postId,
       parentId,
     };
 

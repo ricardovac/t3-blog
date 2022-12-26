@@ -15,7 +15,7 @@ export default function ReplyForm({
   setReplying: Dispatch<SetStateAction<boolean>>;
 }) {
   const router = useRouter();
-  const permalink = router.query.permalink as string;
+  const postId = router.query.postId as string;
   const { handleSubmit, register, reset } = useForm({
     defaultValues,
   });
@@ -26,14 +26,14 @@ export default function ReplyForm({
     onSuccess: () => {
       reset();
 
-      utils.comment.allComments.invalidate({ permalink });
+      utils.comment.allComments.invalidate({ postId });
     },
   });
 
   const onSubmit = (data: { body: string }) => {
     const payload = {
       ...data,
-      permalink,
+      postId,
       parentId,
     };
 
