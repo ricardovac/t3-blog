@@ -17,7 +17,7 @@
 
 ## Features
 
-- Auth (Google, Github soon...)
+- Auth (Google, Github)
 - Create posts
 - Nested comments on posts
 - Search for posts
